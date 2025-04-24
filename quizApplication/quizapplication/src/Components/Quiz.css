@@ -1,107 +1,129 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none;
+.quiz-app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-}
-.container{
-    width: 600px;
-    height:400px;
-    max-height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    background-color: aquamarine;
+
+.quiz-container, .results-section {
+    background: #f8f9fa;
     border-radius: 10px;
-    box-shadow: 0 0 10px white;
+    padding: 25px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-.change-container{
+
+.question-info {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-}
-.ques-text{
-    width:500px;
-    /* width:400px; */
-    margin:5px 10px;
-    text-align:left;
-    /* background-color: brown; */
+    justify-content: space-between;
+    margin-bottom: 20px;
+    color: #555;
 }
 
-.change-container button{
-    text-align:left;
-    width: 500px;
-    height: 35px;
-    padding: 5px 0px 5px 10px;
-    cursor: pointer;
-    background-color: aliceblue;
-    border: 1px solid black;
-    font-size:16px;
-    &:hover{
-    background-color: rgb(212, 234, 255);
-    }
-    &:focus{
-    background-color: rgb(192, 222, 250);
-    }
+.question-text {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: #333;
 }
-.change-container .option{
-    margin: 5px;
-    &:focus{
-     color: greenyellow;
-    }
-}
-.next-btn{
-    width: 350px;
-    height: 40px;
-    margin:15px 0px;
-    padding:5px 0px 10px 0px;
-    background-color: rgb(148, 219, 255);
-    text-align:center;
-    font-size:20px;
-    border: 1px solid black;
-    border-radius: 5px;
-    color: rgb(79, 79, 81);
-    cursor: pointer;
-    &:hover{
-    background-color: rgb(24, 171, 244);
-    color: rgb(255, 255, 255);
-        transition: linear ease-in 10ms;
 
-    }
+.options-container {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 25px;
 }
-.score-section { 
-    padding: 2px 10px;
-    width: 500px;
-    height: 650px;
+
+.option-btn {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.option-btn:hover {
+    background: #f0f0f0;
+    border-color: #aaa;
+}
+
+.next-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.next-btn:hover {
+    background: #45a049;
+}
+
+.next-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.score-text {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #2c3e50;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.review-btn, .restart-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.review-btn {
+    background: #3498db;
+    color: white;
+}
+
+.review-btn:hover {
+    background: #2980b9;
+}
+
+.restart-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.restart-btn:hover {
+    background: #c0392b;
+}
+
+.answers-review {
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+}
+
+.answers-review li {
+    margin-bottom: 15px;
+    padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgb(253, 250, 246);
-    font-weight: bold;
-    color: green;
-    background-color: azure;
- }
-  #scortext{
-    display: block;
-    margin:10px auto;
-    text-align:center;
-    background-color: aquamarine;
-    color: green;
- }
- .score-section p{
-    height: 400px;
- }
- .score-section button{
-    margin: 10px;
-    padding: 5px 10px;
- }
+}
+
+.correct {
+    background: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+.incorrect {
+    background: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
