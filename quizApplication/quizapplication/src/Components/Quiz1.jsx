@@ -3,65 +3,116 @@ import quizData from './quizData';
 import "./Quiz.css";
 
 const Quiz1 = () => {
-    //    let btnValue = document.querySelector("#val").value;
-    const setUserAnswers = ['']
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [score, setScore] = useState(0);
-    // const [userAnswers, setUserAnswers] = useState([]); 
+    const [userAnswers, setUserAnswers] = useState([]);
     const [showScore, setShowScore] = useState(false);
+    const [showReview, setShowReview] = useState(false);
 
-    const nextBtnHandler = () => {
-        const nextQuestion = currentQuestion + 1;
-        if (nextQuestion < quizData.length) {
-            setCurrentQuestion(nextQuestion);
+    const handleAnswerOptionClick = (selectedOption) => {
+        const isCorrect = selectedOption === quizData[currentQuestion].answer;
+        if (isCorrect) {
+            setScore(score + 1);
+        }
+        
+        setUserAnswers([...userAnswers, {
+            question: quizData[currentQuestion].question,
+            selectedOption,
+            correctAnswer: quizData[currentQuestion].answer,
+            isCorrect
+        }]);
+    };
+
+    const nextQuestionHandler = () => {
+        if (currentQuestion < quizData.length - 1) {
+            setCurrentQuestion(currentQuestion + 1);
         } else {
             setShowScore(true);
         }
     };
-    const handleAnswerOptionClick = (option) => {
-        if (option === quizData[currentQuestion].answer) {
-            setScore(score + 1);
-        }
-    }
 
+    const restartQuiz = () => {
+        setCurrentQuestion(0);
+        setScore(0);
+        setUserAnswers([]);
+        setShowScore(false);
+        setShowReview(false);
+    };
 
-    quizData[currentQuestion].options.map((option, index) =>
-        setUserAnswers.push(option)
-    )
-
-    function redirect() {
-        window.location.href = 'http://localhost:3000/';
-    }
-    const checkAns = ()=>{
-      
-    }
+    const toggleReview = () => {
+        setShowReview(!showReview);
+    };
 
     return (
-        <>
-            {
-                showScore ? (
-                    <div className="score-section"> 
-                    <span id="scortext">You scored {score} out of {quizData.length}!</span>
-                        {/* <p>{quizData.forEach((val ,index)=>quizData[1].question)} </p> */}
-                        <button> check your answer</button>
-                        <button onClick={redirect}> Try Again </button>
-                    </div>) : (
-                    <div className="container">
-                        <h1>Quiz Test Application </h1>
-                        <div className="change-container">
-                            <strong className="ques-text"> Question: {currentQuestion + 1} / {quizData.length}  {quizData[currentQuestion].question}</strong>
-
-                            {quizData[currentQuestion].options.map((option, index) => (
-                                <button key={index} id="val" onClick={() => handleAnswerOptionClick(option)}>
-                                    ({index + 1}) {option}
-                                </button>
-                            ))};
-                        </div>
-                        <button type="submit" className="next-btn" onClick={nextBtnHandler} >Next</button>
+        <div className="quiz-app-container">
+            {showScore ? (
+                <div className="results-section">
+                    <h2>Quiz Results</h2>
+                    <p className="score-text">
+                        You scored {score} out of {quizData.length}!
+                    </p>
+                    
+                    <div className="action-buttons">
+                        <button onClick={toggleReview} className="review-btn">
+                            {showReview ? "Hide Answers" : "Review Answers"}
+                        </button>
+                        <button onClick={restartQuiz} className="restart-btn">
+                            Try Again
+                        </button>
                     </div>
-                )}
-        </>
 
-    )
-}
+                    {showReview && (
+                        <div className="answers-review">
+                            <h3>Answer Review:</h3>
+                            <ul>
+                                {userAnswers.map((answer, index) => (
+                                    <li key={index} className={answer.isCorrect ? "correct" : "incorrect"}>
+                                        <p><strong>Q{index + 1}:</strong> {answer.question}</p>
+                                        <p>Your answer: {answer.selectedOption}</p>
+                                        {!answer.isCorrect && (
+                                            <p>Correct answer: {answer.correctAnswer}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="quiz-container">
+                    <h1>Interactive Knowledge Check</h1>
+                    <div className="question-container">
+                        <div className="question-info">
+                            <span>Question {currentQuestion + 1} of {quizData.length}</span>
+                            <span>Score: {score}</span>
+                        </div>
+                        
+                        <h3 className="question-text">{quizData[currentQuestion].question}</h3>
+                        
+                        <div className="options-container">
+                            {quizData[currentQuestion].options.map((option, index) => (
+                                <button 
+                                    key={index}
+                                    onClick={() => handleAnswerOptionClick(option)}
+                                    className="option-btn"
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <button 
+                        onClick={nextQuestionHandler} 
+                        className="next-btn"
+                        disabled={!userAnswers[currentQuestion]}
+                    >
+                        {currentQuestion === quizData.length - 1 ? "Finish" : "Next"}
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+};
+
 export default Quiz1;
